@@ -2,8 +2,13 @@ document.getElementById('bandNameForm').addEventListener('submit', function(even
     event.preventDefault(); // Prevent the default form submission
 
     const form = event.target; // Get the form element
-    const city = form.elements['city'].value; // Get the value of the city input
-    const pet = form.elements['pet'].value; // Get the value of the pet input
+    const city = form.elements['city'].value.trim(); // Get the value of the city input
+    const pet = form.elements['pet'].value.trim(); // Get the value of the pet input
+
+    if (!city || !pet) {
+        document.getElementById('result').textContent = 'Please fill out both fields.';
+        return;
+    }
 
     fetch('http://127.0.0.1:5000/generate', {
         method: 'POST',
@@ -23,6 +28,6 @@ document.getElementById('bandNameForm').addEventListener('submit', function(even
     })
     .catch(error => {
         console.error('Error:', error);
-        // Handle error, e.g., display an error message to the user
+        document.getElementById('result').textContent = 'An error occurred while generating the band name. Please try again.';
     });
 });
